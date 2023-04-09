@@ -1,0 +1,15 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/m3u8-react/node_modules
+
+# testing
+/coverage
+
+# production
+/m3u8-react/build
+
+# misc
+.DS_Store
+.vscode
+
