@@ -10,12 +10,10 @@ const PlayerYouTubeDirectly: any = ({ videoUrl, videoType }: { videoUrl: string,
         <div>
             <ReactPlayer
                 url={videoUrl}
+                controls={true} 
                 config={{
                     youtube: {
                         playerVars: { showinfo: 1 }
-                    },
-                    facebook: {
-                        appId: '12345'
                     }
                 }}
             />
