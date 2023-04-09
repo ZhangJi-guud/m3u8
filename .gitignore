@@ -13,3 +13,5 @@
 .DS_Store
 .vscode
 
+#######################
+/m3u8-nodejs/node_modules
