@@ -1,24 +1,16 @@
 import React from 'react';
-import logo from './logo.svg';
+import PlayerYouTubeDirectly from './player/playerYouTubeDirectly'
 import './App.css';
 
+
 function App() {
+
+  let videoUrl = "https://www.youtube.com/watch?v=E0CvY6GLy3g";
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <PlayerYouTubeDirectly videoUrl={videoUrl}>
+      </PlayerYouTubeDirectly>
     </div>
   );
 }
