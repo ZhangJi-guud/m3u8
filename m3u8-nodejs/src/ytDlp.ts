@@ -8,6 +8,7 @@ export const getYtDlpM3u8Url = async (videoUrl: string): Promise<string> => {
   let m3u8Url: string = "";
 
   ytDlp.stdout.on('data', (data) => {
+    console.log(`data: ${data}`);
     m3u8Url = data.toString().trim();
   });
 
@@ -26,5 +27,6 @@ export const getYtDlpM3u8Url = async (videoUrl: string): Promise<string> => {
     });
   });
 
+  console.log(`return m3u8Url: ${m3u8Url}`);
   return m3u8Url;
 };

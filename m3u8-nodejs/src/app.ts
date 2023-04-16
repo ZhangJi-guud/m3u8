@@ -16,14 +16,14 @@ app.use(bodyParser.json());
 
 const PORT: number = 3001;
 
-app.post('/getM3u8', (req: Request, res: Response): void => {
+app.post('/getM3u8', async (req: Request, res: Response): Promise<void> => {
 
     //let videoId: string = "E0CvY6GLy3g";
     console.log(req.body);
     const ganJingUrl = req.body?.ganJingUrl;
     let m3u8Url: string = "";
 
-    getYtDlpM3u8Url(ganJingUrl)
+    await getYtDlpM3u8Url(ganJingUrl)
         .then((url) => {
             console.log(`M3U8 URL: ${url}`);
             m3u8Url = url;
