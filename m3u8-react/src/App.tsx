@@ -16,7 +16,8 @@ function App() {
     ganJingUrl
   })
     .then(function (response) {
-      console.log(response);
+      console.log(response, response.data?.m3u8Url);
+      setGanJingUrllM3u8(response.data?.m3u8Url);
     })
     .catch(function (error) {
       console.log(error);
