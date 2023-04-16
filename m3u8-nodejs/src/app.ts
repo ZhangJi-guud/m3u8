@@ -1,8 +1,8 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Express, Request, Response } from 'express';
 import { getYtDlpM3u8Url } from './ytDlp';
 import bodyParser from 'body-parser';
 
-const app: Application = express();
+const app: Express = express();
 //app.use(bodyParser());
 //app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
