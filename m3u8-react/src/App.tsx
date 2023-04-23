@@ -10,9 +10,12 @@ function App() {
   //let videoUrl = "https://www.youtube.com/watch?v=E0CvY6GLy3g";
   //let ganJingm3u8 = "https://media4-us-west.cloudokyo.cloud/video/v5/5b/e1/4e/5be14e89-1c4d-4108-a0b4-899f3e3ab089/master.m3u8";
 
-  const [ganJingUrlM3u8, setGanJingUrllM3u8] = useState();
+  const [ganJingUrlM3u8, setGanJingUrllM3u8] = useState('');
 
-  axios.post('http://localhost:3001/app/getM3u8', {
+  let url1 = 'http://localhost:3001/app/getM3u8';
+  let url2 = 'http://localhost:3001/app/getM3u8Body';
+
+  axios.post(url1, {
     ganJingUrl
   })
     .then(function (response) {
@@ -31,7 +34,7 @@ function App() {
       </PlayerYouTubeDirectly>}
       ß
       Play ganjingworld:
-      {false && <PlayerYouTubeDirectly videoUrl={ganJingUrl}>
+      {false && <PlayerYouTubeDirectly videoUrl={url2}>
       </PlayerYouTubeDirectly>}
 
 

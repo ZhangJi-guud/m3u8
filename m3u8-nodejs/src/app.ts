@@ -1,5 +1,6 @@
 import express, { Express, Request, Response, Router } from 'express';
 import { getYtDlpM3u8Url } from './ytDlp';
+import { getRequestContext, conver2MyUrl, getM3u8Body } from './appAuxiliary';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
@@ -8,6 +9,7 @@ const app: Express = express();
 const router:Router = Router();
 //app.use(bodyParser());
 //app.use(bodyParser.urlencoded());
+const appContent:string = "/app";
 
 
 app.use(cors({ allowedHeaders: 'Content-Type, Cache-Control' }));
@@ -34,16 +36,24 @@ router.post('/getM3u8', async (req: Request, res: Response): Promise<void> => {
             console.error(error);
         });
 
+        //getRequestContext(req, appContent);
+        //conver2MyUrl(req,m3u8Url);
+
     res.send({ m3u8Url });
 });
 
+
+router.use('/getM3u8Body', async (req: Request, res: Response): Promise<void> => {
+    let data = await getM3u8Body();
+    res.send(data);
+});
 
 router.use('/', (req: Request, res: Response): void => {
     console.log("/", req.body);
     res.send('Hello world!');
 });
 
-app.use("/app", router);
+app.use(appContent, router);
 
 app.listen(PORT, (): void => {
     console.log('SERVER IS UP ON PORT:', PORT);
