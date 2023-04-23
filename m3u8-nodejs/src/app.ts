@@ -1,15 +1,15 @@
 import express, { Express, Request, Response, Router } from 'express';
 import { getYtDlpM3u8Url } from './ytDlp';
-import { getRequestContext, conver2MyUrl, getM3u8Body } from './appAuxiliary';
+import { getRequestContext, conver2MyUrl, getM3u8Body, getSegmentTs, SementTsData } from './appAuxiliary';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
 const app: Express = express();
 
-const router:Router = Router();
+const router: Router = Router();
 //app.use(bodyParser());
 //app.use(bodyParser.urlencoded());
-const appContent:string = "/app";
+const appContent: string = "/app";
 
 
 app.use(cors({ allowedHeaders: 'Content-Type, Cache-Control' }));
@@ -36,16 +36,39 @@ router.post('/getM3u8', async (req: Request, res: Response): Promise<void> => {
             console.error(error);
         });
 
-        //getRequestContext(req, appContent);
-        //conver2MyUrl(req,m3u8Url);
+    //getRequestContext(req, appContent);
+    //conver2MyUrl(req,m3u8Url);
 
     res.send({ m3u8Url });
 });
 
-
-router.use('/getM3u8Body', async (req: Request, res: Response): Promise<void> => {
+// return m3u8 body
+router.use('/getM3u8Body/master.m3u8', async (req: Request, res: Response): Promise<void> => {
     let data = await getM3u8Body();
     res.send(data);
+});
+
+// return segment.ts
+router.use('/getM3u8Body/segment.ts', async (req: Request, res: Response): Promise<void> => {
+
+
+    const rangeValue: string = req.headers.range as string;
+
+    let sementTsData: SementTsData = await getSegmentTs(rangeValue);
+
+    console.log("data: ", sementTsData.data.length);
+
+    res.set({
+        "Content-Length": sementTsData["Content-Length"],
+        "Content-Range": sementTsData["Content-Range"],
+        "content-type": "video/MP2T",
+        "access-control-allow-credentials": true,
+        "access-control-allow-headers": "origin,range,hdntl,hdnts,CMCD-Request,CMCD-Object,CMCD-Status,CMCD-Session",
+        "access-control-allow-methods": "GET,POST,OPTIONS",
+        "access-control-expose-headers": "Server,range,hdntl,hdnts,Akamai-Mon-Iucid-Ing,Akamai-Mon-Iucid-Del,Akamai-Request-BC"
+    })
+
+    res.send(sementTsData.data);
 });
 
 router.use('/', (req: Request, res: Response): void => {
