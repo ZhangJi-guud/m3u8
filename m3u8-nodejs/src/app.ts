@@ -1,9 +1,11 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express, Request, Response, Router } from 'express';
 import { getYtDlpM3u8Url } from './ytDlp';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
 const app: Express = express();
+
+const router:Router = Router();
 //app.use(bodyParser());
 //app.use(bodyParser.urlencoded());
 
@@ -16,7 +18,7 @@ app.use(bodyParser.json());
 
 const PORT: number = 3001;
 
-app.post('/getM3u8', async (req: Request, res: Response): Promise<void> => {
+router.post('/getM3u8', async (req: Request, res: Response): Promise<void> => {
 
     //let videoId: string = "E0CvY6GLy3g";
     console.log(req.body);
@@ -36,10 +38,12 @@ app.post('/getM3u8', async (req: Request, res: Response): Promise<void> => {
 });
 
 
-app.use('/', (req: Request, res: Response): void => {
+router.use('/', (req: Request, res: Response): void => {
     console.log("/", req.body);
     res.send('Hello world!');
 });
+
+app.use("/app", router);
 
 app.listen(PORT, (): void => {
     console.log('SERVER IS UP ON PORT:', PORT);

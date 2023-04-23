@@ -12,7 +12,7 @@ function App() {
 
   const [ganJingUrlM3u8, setGanJingUrllM3u8] = useState();
 
-  axios.post('http://localhost:3001/getM3u8', {
+  axios.post('http://localhost:3001/app/getM3u8', {
     ganJingUrl
   })
     .then(function (response) {
