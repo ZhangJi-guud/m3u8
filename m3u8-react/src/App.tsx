@@ -25,6 +25,7 @@ function App() {
     })
     .catch(function (error) {
       console.log(error);
+      //setGanJingUrllM3u8("http://127.0.0.1:8080/index.m3u8");
     });
 
   return (

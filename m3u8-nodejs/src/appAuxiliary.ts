@@ -2,7 +2,7 @@ import express, { Express, Request, Response, Router } from 'express';
 import { URL } from 'url';
 import axios from 'axios';
 
-export type SementTsData = {
+export type SegmentTsData = {
     data: string;
     "Content-Length": string;
     "Content-Range": string;
@@ -23,19 +23,28 @@ export const getM3u8Body = async() => {
     return data;
 }
 
-export const getSegmentTs = async(rangeValue:string):Promise<SementTsData> => {
-    let str = "https://media4-us-west.cloudokyo.cloud/video/v5/5b/e1/4e/5be14e89-1c4d-4108-a0b4-899f3e3ab089/v720p/segment.ts";
-
+export const getSegmentTs = async(rangeValue:string):Promise<SegmentTsData> => {
+    let segmentUrl = "https://media4-us-west.cloudokyo.cloud/video/v5/5b/e1/4e/5be14e89-1c4d-4108-a0b4-899f3e3ab089/v720p/segment.ts";
+/*
     let headerConfig = {
+        responseType: 'arraybuffer',
         headers: {
-            Range: rangeValue,
+            Range: rangeValue
         }
       }
 
     const { data, headers, status } = await axios.get(
-        str, headerConfig
+        segmentUrl, headerConfig
       );
-
+*/
+    const { data, headers, status } = await axios.request({
+        method: 'GET',
+        url: segmentUrl,
+        responseType: 'arraybuffer',
+        headers: {
+            Range: rangeValue
+        }
+    });
     //console.log("data", data);
 
     // 👇️ "response status is: 200"
@@ -44,8 +53,8 @@ export const getSegmentTs = async(rangeValue:string):Promise<SementTsData> => {
     let cl = headers["content-length"] as string;
     let cr = headers["content-range"] as string;
 
-    let segmentTsData:SementTsData = {data, "Content-Length":cl,"Content-Range":cr};
-    //console.log('segmentTsData is: ', segmentTsData);
+    let segmentTsData:SegmentTsData = {data, "Content-Length":cl,"Content-Range":cr};
+    // console.log('segmentTsData is::: ', segmentTsData['Content-Length'], segmentTsData['Content-Range'],segmentTsData.data.length);
 
     return segmentTsData;
 }

@@ -1,6 +1,6 @@
 import express, { Express, Request, Response, Router } from 'express';
 import { getYtDlpM3u8Url } from './ytDlp';
-import { getRequestContext, conver2MyUrl, getM3u8Body, getSegmentTs, SementTsData } from './appAuxiliary';
+import { getRequestContext, conver2MyUrl, getM3u8Body, getSegmentTs, SegmentTsData } from './appAuxiliary';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
@@ -54,21 +54,23 @@ router.use('/getM3u8Body/segment.ts', async (req: Request, res: Response): Promi
 
     const rangeValue: string = req.headers.range as string;
 
-    let sementTsData: SementTsData = await getSegmentTs(rangeValue);
+    let segmentTsData: SegmentTsData = await getSegmentTs(rangeValue);
 
-    console.log("data: ", sementTsData.data.length);
+    console.log("data: ", segmentTsData.data.length);
+    console.log('segmentTsData is::: ', segmentTsData['Content-Length'], segmentTsData['Content-Range'], segmentTsData.data.length);
 
     res.set({
-        "Content-Length": sementTsData["Content-Length"],
-        "Content-Range": sementTsData["Content-Range"],
+        "Content-Length": segmentTsData["Content-Length"],
+        "Content-Range": segmentTsData["Content-Range"],
         "content-type": "video/MP2T",
         "access-control-allow-credentials": true,
         "access-control-allow-headers": "origin,range,hdntl,hdnts,CMCD-Request,CMCD-Object,CMCD-Status,CMCD-Session",
         "access-control-allow-methods": "GET,POST,OPTIONS",
-        "access-control-expose-headers": "Server,range,hdntl,hdnts,Akamai-Mon-Iucid-Ing,Akamai-Mon-Iucid-Del,Akamai-Request-BC"
+        "access-control-expose-headers": "Server,range,hdntl,hdnts,Akamai-Mon-Iucid-Ing,Akamai-Mon-Iucid-Del,Akamai-Request-BC",
+        "testHeader":"testHeaderValue"
     })
 
-    res.send(sementTsData.data);
+    res.send(segmentTsData.data);
 });
 
 router.use('/', (req: Request, res: Response): void => {
