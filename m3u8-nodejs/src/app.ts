@@ -36,8 +36,8 @@ router.post('/getM3u8', async (req: Request, res: Response): Promise<void> => {
             console.error(error);
         });
 
-    //getRequestContext(req, appContent);
-    //conver2MyUrl(req,m3u8Url);
+    getRequestContext(req, appContent);
+    conver2MyUrl(req,m3u8Url);
 
     res.send({ m3u8Url });
 });
@@ -45,6 +45,7 @@ router.post('/getM3u8', async (req: Request, res: Response): Promise<void> => {
 // return m3u8 body
 router.use('/getM3u8Body/master.m3u8', async (req: Request, res: Response): Promise<void> => {
     let data = await getM3u8Body();
+    console.log("/getM3u8Body/master.m3u8:", data)
     res.send(data);
 });
 
